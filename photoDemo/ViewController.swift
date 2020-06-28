@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 class ViewController: UIViewController {
-
+    
     var searachTextfield: UITextField =  {
         var tf = UITextField()
         tf.borderStyle = .roundedRect
@@ -27,7 +27,7 @@ class ViewController: UIViewController {
         tf.placeholder = "每頁呈現數量"
         return tf
     }()
-
+    
     var searchBtn: UIButton = {
         var b = UIButton(type: .custom)
         b.translatesAutoresizingMaskIntoConstraints = false
@@ -45,81 +45,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         setupUI()
-    
-        let relay: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
-        let page = BehaviorRelay<String>(value: "")
+        bindUI()
         
-        searachTextfield.rx.text.asObservable().subscribe(onNext: { (s) in
-                print("s: \(s)")
-            if s != nil {
-                relay.accept(s!)
-            }
-            }).disposed(by: disposeBag)
-        
-        pageTextfield.rx.text.asObservable().subscribe(onNext: { (s) in
-            print("s: \(s)")
-            if s != nil {
-                page.accept(s!)
-            }
-        }).disposed(by: disposeBag)
-        
-        let results = searachTextfield.rx.text
-        .throttle(0.3, scheduler: MainScheduler.instance)
-
-        results.bind(to: searachTextfield.rx.text).disposed(by: disposeBag)
-        
-        let searchVaild = self.searachTextfield.rx.text.orEmpty
-            .map { $0.count > 0 }
-            .share(replay: 1)
-        
-        let pageVaild = self.pageTextfield.rx.text.orEmpty
-            .map { $0.count > 0 }
-            .share(replay: 1)
-        
-        let everythingValid = Observable.combineLatest(searchVaild, pageVaild) { $0 && $1}.share(replay: 1)
-        
-        everythingValid.bind(to: self.searchBtn.rx.isEnabled).disposed(by: disposeBag)
-        
-        everythingValid.subscribe(onNext: { (vaild) in
-            self.searchBtn.backgroundColor = vaild ? UIColor.blue : UIColor.gray
-            }).disposed(by: disposeBag)
-        
-        let tapGesture = UITapGestureRecognizer()
-        view.addGestureRecognizer(tapGesture)
-
-        tapGesture.rx.event
-            .bind(onNext: { recognizer in
-                self.view.endEditing(true)
-        }).disposed(by: disposeBag)
-        
-        self.searchBtn.rx.tap
-            .subscribe(onNext: { [weak self] in
-                let vc = PhotoTabBarController()
-                vc.modalPresentationStyle = .fullScreen
-         
-                let photoVC = PhotoViewController(text: relay.value, page: page.value)
-                                photoVC.tabBarItem.image = .strokedCheckmark
-                                photoVC.tabBarItem.title = "photo"
-                //                photoVC.searchText = t
-                //                photoVC.searchPage = p
-                                
-                                vc.viewControllers = [photoVC]
-                vc.selectedIndex = 0
-                
-            print("relay: \(relay.value)")
-//                vc.readyText(t: relay.value, p: page.value)
-                self?.navigationController?.pushViewController(vc, animated: false)
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    func showAlert() {
-        let alert = UIAlertController(title: "tap", message: nil, preferredStyle: .alert)
-        let action = UIAlertAction(title: "Yes", style: .default) { (action) in
-            self.dismiss(animated: false, completion: nil)
-        }
-        alert.addAction(action)
-        self.present(alert, animated: false, completion: nil)
     }
     
     func setupUI() {
@@ -151,6 +78,64 @@ class ViewController: UIViewController {
         ])
         
     }
-
+    
+    func bindUI() {
+        let viewModel = ViewModel(input: (searchText: self.searachTextfield.rx.text.orEmpty.asObservable(),
+                                          searchPage: self.pageTextfield.rx.text.orEmpty.asObservable(),
+                                          searchTaps: self.searchBtn.rx.tap.asObservable()))
+        
+        viewModel.canSearch.asObservable()
+            .subscribe(onNext: { (enable) in
+                self.searchBtn.backgroundColor = enable ? UIColor.blue : UIColor.gray
+            }, onError: nil, onCompleted: nil, onDisposed: nil)
+            .disposed(by: disposeBag)
+        
+        viewModel.canSearch
+            .bind(to: searchBtn.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        
+        let relay: BehaviorRelay<String> = BehaviorRelay<String>(value: "")
+        let page = BehaviorRelay<String>(value: "")
+        
+        searachTextfield.rx.text.asObservable().subscribe(onNext: { (s) in
+            print("s: \(s)")
+            if s != nil {
+                relay.accept(s!)
+            }
+        }).disposed(by: disposeBag)
+        
+        pageTextfield.rx.text.asObservable().subscribe(onNext: { (s) in
+            print("s: \(s)")
+            if s != nil {
+                page.accept(s!)
+            }
+        }).disposed(by: disposeBag)
+        
+        let tapGesture = UITapGestureRecognizer()
+        view.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event
+            .bind(onNext: { recognizer in
+                self.view.endEditing(true)
+            }).disposed(by: disposeBag)
+        
+        self.searchBtn.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let vc = PhotoTabBarController()
+                vc.modalPresentationStyle = .fullScreen
+                
+                let photoVC = PhotoViewController(text: relay.value, page: page.value)
+                photoVC.tabBarItem.image = .strokedCheckmark
+                photoVC.tabBarItem.title = "photo"
+                
+                vc.viewControllers = [photoVC]
+                vc.selectedIndex = 0
+                
+                self?.navigationController?.pushViewController(vc, animated: false)
+            })
+            .disposed(by: disposeBag)
+    }
+    
 }
 

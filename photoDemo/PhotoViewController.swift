@@ -31,8 +31,6 @@ class PhotoViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.text = text
         self.page = page
-        print("relay2: \(text),\(self.text)")
-
     }
     
     required init?(coder: NSCoder) {
@@ -43,7 +41,6 @@ class PhotoViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        
         setupUI()
         bindUI()
     }
@@ -69,30 +66,8 @@ class PhotoViewController: UIViewController {
         ])
     }
     
-    func fetchPhoto(text: String) {
-        print("searchText3: \(text)")
-        searchText.accept(text)
-    }
-    
     func bindUI() {
-        
-        self.provider.rx.request(.fetchFlicker(text: self.text!.lowercased(), page: self.page!.lowercased()))
-            .filterSuccessfulStatusCodes()
-            .map(FlickerModel.self)
-            .subscribe(onSuccess: { (p) in
-                self.anchorArr.accept(p.photos.photo)
-                //                print(p.photos.photo.first)
-            }) { (e) in
-                print(e)
-                self.showAlert(title: e.localizedDescription)
-        }.disposed(by: self.disposBag)
-        
-        
-        let sections = anchorArr.asObservable().map { (models) -> [PhotoSection] in
-            return [PhotoSection(header: "", items: models)]
-        }.asObservable().catchErrorJustReturn([])
-        
-        
+
         let dataSource = RxCollectionViewSectionedReloadDataSource<PhotoSection>(configureCell: { (dataSorce, collectionView, indexPath, element) -> UICollectionViewCell in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "photo", for: indexPath) as! PhotoCell
             cell.label.text = element.title
@@ -100,7 +75,11 @@ class PhotoViewController: UIViewController {
             return cell
         })
         
-        sections
+        let photoViewModel = PhotoViewModel()
+        
+        photoViewModel.getPhoto(searchText: self.text ?? "", page: self.page ?? "")
+        
+        photoViewModel.section
             .bind(to: (collectionView?.rx.items(dataSource: dataSource))!)
             .disposed(by: disposBag)
     }

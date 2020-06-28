@@ -56,3 +56,15 @@ extension String {
     return addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
   }
 }
+
+import RxSwift
+
+class API {
+    static let shared = API()
+    
+    let provider = MoyaProvider<ApiService>()
+    
+    func fetchPhoto(text: String, page: String) -> Single<Response> {
+        return self.provider.rx.request(.fetchFlicker(text: text.lowercased(), page: page.lowercased()))
+    }
+}

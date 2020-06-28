@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1675D83A24A86B28006033A0 /* PhotoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1675D83924A86B28006033A0 /* PhotoViewModel.swift */; };
 		1695FF1B24A2391A00AA8AB7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695FF1A24A2391A00AA8AB7 /* AppDelegate.swift */; };
 		1695FF1F24A2391A00AA8AB7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695FF1E24A2391A00AA8AB7 /* ViewController.swift */; };
 		1695FF2424A2392600AA8AB7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1695FF2324A2392600AA8AB7 /* Assets.xcassets */; };
@@ -17,10 +18,12 @@
 		1695FF3524A452D400AA8AB7 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695FF3424A452D400AA8AB7 /* PhotoViewController.swift */; };
 		1695FF3824A4533C00AA8AB7 /* PhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695FF3624A4533C00AA8AB7 /* PhotoCell.swift */; };
 		1695FF3924A4533C00AA8AB7 /* PhotoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1695FF3724A4533C00AA8AB7 /* PhotoCell.xib */; };
+		1695FF3B24A6210100AA8AB7 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695FF3A24A6210100AA8AB7 /* ViewModel.swift */; };
 		C51859DD36F3B32D3AFA8ABB /* Pods_photoDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2F4C6CE055CC4EB6F93F307 /* Pods_photoDemo.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1675D83924A86B28006033A0 /* PhotoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewModel.swift; sourceTree = "<group>"; };
 		1695FF1724A2391900AA8AB7 /* photoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = photoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1695FF1A24A2391A00AA8AB7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1695FF1E24A2391A00AA8AB7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -33,6 +36,7 @@
 		1695FF3424A452D400AA8AB7 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		1695FF3624A4533C00AA8AB7 /* PhotoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCell.swift; sourceTree = "<group>"; };
 		1695FF3724A4533C00AA8AB7 /* PhotoCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoCell.xib; sourceTree = "<group>"; };
+		1695FF3A24A6210100AA8AB7 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		98A0603D38A6840DD84A8302 /* Pods-photoDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-photoDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-photoDemo/Pods-photoDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		A2F4C6CE055CC4EB6F93F307 /* Pods_photoDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_photoDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F11619A951D8AFD35863F289 /* Pods-photoDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-photoDemo.release.xcconfig"; path = "Pods/Target Support Files/Pods-photoDemo/Pods-photoDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +86,8 @@
 				1695FF3424A452D400AA8AB7 /* PhotoViewController.swift */,
 				1695FF3624A4533C00AA8AB7 /* PhotoCell.swift */,
 				1695FF3724A4533C00AA8AB7 /* PhotoCell.xib */,
+				1695FF3A24A6210100AA8AB7 /* ViewModel.swift */,
+				1675D83924A86B28006033A0 /* PhotoViewModel.swift */,
 			);
 			path = photoDemo;
 			sourceTree = "<group>";
@@ -233,8 +239,10 @@
 				1695FF2F24A451C000AA8AB7 /* PhotoModel.swift in Sources */,
 				1695FF3124A4521800AA8AB7 /* FlickerApiService.swift in Sources */,
 				1695FF1F24A2391A00AA8AB7 /* ViewController.swift in Sources */,
+				1675D83A24A86B28006033A0 /* PhotoViewModel.swift in Sources */,
 				1695FF1B24A2391A00AA8AB7 /* AppDelegate.swift in Sources */,
 				1695FF3324A452B100AA8AB7 /* PhotoTabBarController.swift in Sources */,
+				1695FF3B24A6210100AA8AB7 /* ViewModel.swift in Sources */,
 				1695FF3524A452D400AA8AB7 /* PhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
